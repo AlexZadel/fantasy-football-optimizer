@@ -104,44 +104,6 @@ def proj_defense_score(defenses):
 
 
 
-
-#fn to build team complete with scoring and cost information
-def compile_team(qb, rb1, rb2, wr1, wr2, wr3, te, flex, defense, df1=players, df2=defenses):
-
-    #initialize
-    team_list = [qb, rb1, rb2, wr1, wr2, wr3, te, flex]
-    new_team = {}
-    cost = 0
-    proj_score = 0
-
-    #
-    new_team['qb'] = str((qb, df1.loc[qb, 'cost'], int(df1.loc[qb, 'proj_score'])))
-    new_team['rb1'] = str((rb1, df1.loc[rb1, 'cost'], int(df1.loc[rb1, 'proj_score'])))
-    new_team['rb2'] = str((rb2, df1.loc[rb2, 'cost'], int(df1.loc[rb2, 'proj_score'])))
-    new_team['wr1'] = str((wr1, df1.loc[wr1, 'cost'], int(df1.loc[wr1, 'proj_score'])))
-    new_team['wr2'] = str((wr2, df1.loc[wr2, 'cost'], int(df1.loc[wr2, 'proj_score'])))
-    new_team['wr3'] = str((wr3, df1.loc[wr3, 'cost'], int(df1.loc[wr3, 'proj_score'])))
-    new_team['te'] = str((te, df1.loc[te, 'cost'], int(df1.loc[te, 'proj_score'])))
-    new_team['defense'] = str((defense, df2.loc[defense, 'cost'], int(df2.loc[defense, 'proj_score'])))
-    new_team['flex'] = str((flex, df1.loc[flex, 'cost'], int(df1.loc[flex, 'proj_score'])))
-
-    #calculate
-    for pos in team_list:
-        cost += df1.loc[pos, 'cost']
-        proj_score += df1.loc[pos, 'proj_score']
-
-    cost += df2.loc[defense, 'cost']
-    proj_score += df2.loc[defense, 'proj_score']
-
-    new_team['cost'] = cost
-    new_team['proj_score'] = proj_score
-
-    new_team_df = pd.DataFrame(new_team, index = [0])
-    return new_team_df
-
-
-
-
 # fn to calculate the score for a total team: takes in the team dataframe
 def team_score(team):
     n = team.shape[0]
